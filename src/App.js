@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import Counter from "./components/counter";
+import Navbar from "./components/navbar";
+import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
+import Home from "./components/home";
+import Login from "./pages/auth/login";
+import { selectIsLogin } from "./pages/auth/auth";
+import { useSelector } from "react-redux";
+import React from "react";
+import { ToastContainer } from "react-toastify";
 
 function App() {
+  const isLogin = useSelector(selectIsLogin);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <ToastContainer />
+      <div className="App">
+        <Route path="/login" exact>
+          <Login />
+        </Route>
+        <Route>
+          {isLogin ? (
+            <React.Fragment>
+              <Navbar />
+              <Switch>
+                <Route path="/home" exact>
+                  <Home />
+                </Route>
+                <Route path="/count" exact>
+                  <Counter />
+                </Route>
+                <Redirect from="/" to="/home" exact />
+              </Switch>
+            </React.Fragment>
+          ) : (
+            <Redirect to="login" />
+          )}
+        </Route>
+      </div>
+    </BrowserRouter>
   );
 }
 
