@@ -1,0 +1,12 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.navbar-collapse {
+  order: 10;
+}
+
+@media (min-width: map-get($grid-breakpoints, "lg")) {
+  .navbar-collapse {
+    order: 0;
+  }
+}

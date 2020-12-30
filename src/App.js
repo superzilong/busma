@@ -7,6 +7,7 @@ import { selectIsLogin } from "./pages/auth/auth";
 import { useSelector } from "react-redux";
 import React from "react";
 import { ToastContainer } from "react-toastify";
+import "./App.scss";
 
 function App() {
   const isLogin = useSelector(selectIsLogin);
