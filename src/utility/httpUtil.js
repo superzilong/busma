@@ -46,7 +46,9 @@ axios.interceptors.response.use(null, async (error) => {
       return axios(originalRequest);
     }
   }
-  return Promise.reject(error);
+  if (error.response.status !== 401) {
+    return Promise.reject(error);
+  }
 });
 
 async function refreshAccessToken() {
