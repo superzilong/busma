@@ -10,9 +10,9 @@ import {
 import { NavLink, Link } from "react-router-dom";
 import logo from "../logo.svg";
 import { useDispatch } from "react-redux";
-import { logout } from "../pages/auth/auth";
+import { logoutAsync } from "../pages/auth/auth";
 
-const MyNavbar = () => {
+const MyNavbar = ({ username }) => {
   const dispatch = useDispatch();
 
   return (
@@ -25,7 +25,7 @@ const MyNavbar = () => {
           className="d-inline-block align-top"
           alt="GLib logo"
         />
-        GLib
+        BusyMan
       </Link>
       {/* <Navbar.Brand href="#home">GLib</Navbar.Brand> */}
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -37,15 +37,14 @@ const MyNavbar = () => {
           <NavLink className="nav-link" to="/count">
             Count
           </NavLink>
-          <NavLink
-            className="nav-link"
-            to="/login"
+          <Button
+            variant="link"
             onClick={() => {
-              dispatch(logout());
+              dispatch(logoutAsync());
             }}
           >
             Logout
-          </NavLink>
+          </Button>
           {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">
@@ -63,6 +62,7 @@ const MyNavbar = () => {
           <Button variant="outline-success">Search</Button>
         </Form>
       </Navbar.Collapse>
+      <button className="btn btn-info rounded-circle">{username}</button>
     </Navbar>
   );
 };

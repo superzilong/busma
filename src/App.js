@@ -3,13 +3,16 @@ import Navbar from "./components/navbar";
 import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import Home from "./components/home";
 import Login from "./pages/auth/login";
-import { selectIsLogin } from "./pages/auth/auth";
+import { selectIsLogin, selectUsername } from "./pages/auth/auth";
 import { useSelector } from "react-redux";
 import React from "react";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const isLogin = useSelector(selectIsLogin);
+  const username = useSelector(selectUsername);
+
   return (
     <BrowserRouter>
       <ToastContainer />
@@ -20,7 +23,7 @@ function App() {
         <Route>
           {isLogin ? (
             <React.Fragment>
-              <Navbar />
+              <Navbar username={username} />
               <Switch>
                 <Route path="/home" exact>
                   <Home />

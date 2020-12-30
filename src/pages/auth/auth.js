@@ -1,18 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { svcLogin } from "../../service/svc-auth";
-// import { useDispatch } from "react-redux";
+import { loginSvc } from "../../service/authSvc";
+import jwt_decode from "jwt-decode";
+
+function initialize() {
+  try {
+    var accessToken = localStorage.getItem("accessToken");
+    var decoded = jwt_decode(accessToken);
+    if (decoded.username) {
+      return {
+        bLogin: true,
+        username: decoded.username,
+      };
+    }
+  } catch (error) {}
+  return { bLogin: false, username: "" };
+}
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    bLogin: false,
-  },
+  initialState: initialize(),
   reducers: {
-    login: (state) => {
+    login: (state, action) => {
       state.bLogin = true;
+      state.username = action.payload;
     },
     logout: (state) => {
       state.bLogin = false;
+      state.username = "";
     },
   },
 });
@@ -24,13 +38,22 @@ export const { login, logout } = authSlice.actions;
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
 export const loginAsync = (username, password) => async (dispatch) => {
-  const { data } = await svcLogin(username, password);
+  const { data } = await loginSvc(username, password);
   console.log(data);
-  dispatch(login());
+  if (data.data && data.data.accessToken && data.data.refreshToken) {
+    localStorage.setItem("accessToken", data.data.accessToken);
+    localStorage.setItem("refreshToken", data.data.refreshToken);
+    dispatch(login(username));
+    return data.msg;
+  } else {
+    throw new Error(data.msg);
+  }
 };
 
 export const logoutAsync = () => (dispatch) => {
   setTimeout(() => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     dispatch(logout());
   }, 1000);
 };
@@ -39,5 +62,6 @@ export const logoutAsync = () => (dispatch) => {
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectIsLogin = (state) => state.auth.bLogin;
+export const selectUsername = (state) => state.auth.username;
 
 export default authSlice.reducer;

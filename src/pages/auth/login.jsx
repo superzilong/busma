@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { loginAsync } from "./auth";
 import "./login.css";
-//import bg from "./bg.png";
+import { toast } from "react-toastify";
+import bg from "./bg.png";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -16,11 +17,14 @@ const Login = () => {
   return (
     <div className="min-vh-100" style={{ paddingTop: "25vh" }}>
       <img
-        src="https://picsum.photos/1920/1080.jpg"
+        // src="https://picsum.photos/1920/1080.jpg"
+        src={bg}
         alt="background"
         className="bg"
       />
       <div style={{ width: "400px" }} className="bg-light mx-auto py-5 rounded">
+        {/* <ToastContainer /> */}
+
         <h1 className="text-center mb-5">GLib Login</h1>
         <Form style={{ width: "350px" }} className="mx-auto">
           <Form.Group controlId="formBasicEmail">
@@ -58,8 +62,13 @@ const Login = () => {
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              dispatch(loginAsync(username, password));
-              history.push("/");
+              dispatch(loginAsync(username, password))
+                .then(() => history.push("/"))
+                .catch((error) => {
+                  console.log(error);
+                  toast.error(error.message);
+                });
+              //
             }}
           >
             Submit
