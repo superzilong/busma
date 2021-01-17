@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { apiUrl } from "../config.json";
+// import createHistory from "history/createBrowserHistory";
 
 // Request interceptor for API calls
 // axios.interceptors.request.use(
@@ -23,6 +24,7 @@ import { apiUrl } from "../config.json";
 //     Promise.reject(error);
 //   }
 // );
+// const history = createHistory();
 
 axios.interceptors.response.use(null, async (error) => {
   const expectedError =
@@ -32,39 +34,56 @@ axios.interceptors.response.use(null, async (error) => {
 
   if (!expectedError) {
     toast.error("An unexpected error occurrred.");
-  } else if (error.response.status === 401) {
-    const originalRequest = error.config;
-    if (!originalRequest._retry) {
-      originalRequest._retry = true;
-      const access_token = await refreshAccessToken();
+  } else if (error.response.status === 452) {
+    try {
+      const originalRequest = error.config;
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
+        const access_token = await refreshAccessToken();
+        console.log(
+          "🚀 ~ file: httpUtil.js ~ line 29 ~ axios.interceptors.response.use ~ access_token",
+          access_token
+        );
+        originalRequest.headers["Authorization"] =
+          "Bearer " + access_token.data.data.accessToken;
+        return axios(originalRequest);
+      }
+    } catch (err) {
       console.log(
-        "🚀 ~ file: httpUtil.js ~ line 29 ~ axios.interceptors.response.use ~ access_token",
-        access_token
+        "🚀 ~ file: httpUtil.js ~ line 50 ~ axios.interceptors.response.use ~ err",
+        err
       );
-      originalRequest.headers["Authorization"] =
-        "Bearer " + access_token.data.data.accessToken;
-      return axios(originalRequest);
+
+      throw err;
     }
+  } else if (error.response.status === 453) {
+    // history.replace("/login");
   }
-  if (error.response.status !== 401) {
-    return Promise.reject(error);
-  }
+  return Promise.reject(error);
 });
 
 async function refreshAccessToken() {
-  const res = await axios.post(
-    apiUrl + "/refreshToken",
-    {
-      refreshToken: localStorage.getItem("refreshToken"),
-    },
-    {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+  try {
+    const res = await axios.post(
+      apiUrl + "/refreshToken",
+      {
+        refreshToken: localStorage.getItem("refreshToken"),
       },
-    }
-  );
-  return res;
+      {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      }
+    );
+    return res;
+  } catch (err) {
+    console.log(
+      "🚀 ~ file: httpUtil.js ~ line 81 ~ refreshAccessToken ~ err",
+      err
+    );
+    throw err;
+  }
 }
 
 const ex = {

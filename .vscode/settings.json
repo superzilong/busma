@@ -1,3 +1,6 @@
 {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "workbench.colorTheme": "SynthWave '84",
+    "synthwave84.disableGlow": false,
+    "synthwave84.enableNeon": true
 }

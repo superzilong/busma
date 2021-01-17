@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginSvc } from "../../service/authSvc";
 import jwt_decode from "jwt-decode";
+import * as actions from "../../store/api";
 
 function initialize() {
   try {
@@ -10,10 +11,11 @@ function initialize() {
       return {
         bLogin: true,
         username: decoded.username,
+        userinfo: "",
       };
     }
   } catch (error) {}
-  return { bLogin: false, username: "" };
+  return { bLogin: false, username: "", userinfo: "" };
 }
 
 export const authSlice = createSlice({
@@ -27,6 +29,9 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.bLogin = false;
       state.username = "";
+    },
+    userinfoReceived: (state, action) => {
+      state.userinfo = action.payload.Name + " like  " + action.payload.Hobby;
     },
   },
 });
@@ -58,10 +63,22 @@ export const logoutAsync = () => (dispatch) => {
   }, 1000);
 };
 
+export const loadUserInfo = () => (dispatch) => {
+  dispatch(
+    actions.apiCallBegan({
+      url: "/user",
+      method: "get",
+      data: {},
+      onSuccess: "auth/userinfoReceived",
+    })
+  );
+};
+
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectIsLogin = (state) => state.auth.bLogin;
 export const selectUsername = (state) => state.auth.username;
+export const getUserInfo = (state) => state.auth.userinfo;
 
 export default authSlice.reducer;
