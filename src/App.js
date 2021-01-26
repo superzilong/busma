@@ -1,8 +1,9 @@
 import Counter from "./components/counter";
-import Navbar from "./components/navbar";
+import Navbar from "./components/navbar/navbar";
 import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import Home from "./components/home";
 import Profile from "./components/profile";
+import Create from "./components/create";
 import Login from "./pages/auth/login";
 import { selectIsLogin, selectUsername } from "./pages/auth/auth";
 import { useSelector } from "react-redux";
@@ -42,6 +43,9 @@ function App() {
                 </Route>
                 <Route path="/count" exact>
                   <Counter />
+                </Route>
+                <Route path="/create" exact>
+                  <Create />
                 </Route>
                 <Redirect from="/" to="/home" exact />
               </Switch>

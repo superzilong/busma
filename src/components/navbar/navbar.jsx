@@ -6,12 +6,15 @@ import {
   FormControl,
   Form,
   ButtonGroup,
+  Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import logo from "../logo.svg";
+import logo from "../../logo.svg";
 import { useDispatch } from "react-redux";
-import { logoutAsync } from "../pages/auth/auth";
+import { logoutAsync } from "../../pages/auth/auth";
 import "./navbar.scss";
+import avatarIcon from "./avatar.svg";
+// import { LinkContainer } from "react-router-bootstrap";
 
 const MyNavbar = ({ username }) => {
   const dispatch = useDispatch();
@@ -22,17 +25,26 @@ const MyNavbar = ({ username }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="navbar-collapse-panel">
         <Nav className="mr-auto">
-          <Link to="/" className="navbar-brand navbar-icon">
-            <img
-              src={logo}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt="logo"
-            />
+          <Link to="/home">
+            <Navbar.Brand>
+              <img
+                src={logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="logo"
+              />
+            </Navbar.Brand>
           </Link>
-          <Nav.Link href="/home">Home</Nav.Link>
-          <Nav.Link href="/count">Count</Nav.Link>
+          <Nav.Link as={Link} to="/home">
+            Home
+          </Nav.Link>
+          <Nav.Link as={Link} to="/count">
+            Count
+          </Nav.Link>
+          <Button as={Link} to="/create" variant="outline-info">
+            Create
+          </Button>
         </Nav>
       </Navbar.Collapse>
       <Form inline>
@@ -46,7 +58,7 @@ const MyNavbar = ({ username }) => {
           bsPrefix="btn"
         >
           <img
-            src="https://webpack.js.org/icon-square-small.85ba630cf0c5f29ae3e3.svg"
+            src={avatarIcon}
             alt="avatar"
             style={{
               objectFit: "cover",
@@ -58,7 +70,7 @@ const MyNavbar = ({ username }) => {
           />
         </Dropdown.Toggle>
         <Dropdown.Menu className="super-colors mt-2 shadow" align="right">
-          <Dropdown.Item eventKey="1" href="/profile">
+          <Dropdown.Item as={Link} to="/profile" eventKey="1">
             Profile
           </Dropdown.Item>
           <Dropdown.Item

@@ -2,6 +2,7 @@ import axios from "axios";
 import { apiUrl } from "../../config.json";
 import * as actions from "../api";
 import { logoutAsync } from "../../pages/auth/auth";
+import { toast } from "react-toastify";
 
 const api = ({ dispatch }) => (next) => async (action) => {
   if (
@@ -35,6 +36,8 @@ const api = ({ dispatch }) => (next) => async (action) => {
   if (action.type === actions.apiCallFailed().type) {
     if (action.payload.response && action.payload.response.status === 401) {
       dispatch(logoutAsync());
+    } else {
+      toast.error(action.payload.response.data);
     }
   }
 };
