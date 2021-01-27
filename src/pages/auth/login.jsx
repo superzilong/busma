@@ -23,8 +23,6 @@ const Login = () => {
         className="bg"
       />
       <div style={{ width: "400px" }} className="bg-light mx-auto py-5 rounded">
-        {/* <ToastContainer /> */}
-
         <h1 className="text-center mb-5">GLib Login</h1>
         <Form style={{ width: "350px" }} className="mx-auto">
           <Form.Group controlId="formBasicEmail">

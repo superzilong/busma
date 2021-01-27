@@ -4,6 +4,7 @@ import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import Home from "./components/home";
 import Profile from "./components/profile";
 import Create from "./components/create";
+import CreateProuct from "./components/createProduct";
 import Login from "./pages/auth/login";
 import { selectIsLogin, selectUsername } from "./pages/auth/auth";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import axios from "axios";
+import Sucess from "./components/success";
 
 function App() {
   const isLogin = useSelector(selectIsLogin);
@@ -46,6 +48,12 @@ function App() {
                 </Route>
                 <Route path="/create" exact>
                   <Create />
+                </Route>
+                <Route path="/product/new">
+                  <CreateProuct />
+                </Route>
+                <Route path="/success" exact>
+                  <Sucess />
                 </Route>
                 <Redirect from="/" to="/home" exact />
               </Switch>
