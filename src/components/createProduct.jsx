@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { createProduct } from "../store/entities";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 // import { toast } from "react-toastify";
 
 export default function CreateProduct() {
   const dispatch = useDispatch();
-  //   const history = useHistory();
+  const history = useHistory();
   const [productName, setProductName] = useState("");
   const [productUnit, setProductUnit] = useState("");
   return (
@@ -46,8 +46,9 @@ export default function CreateProduct() {
           type="submit"
           onClick={(e) => {
             e.preventDefault();
-            dispatch(createProduct({ name: productName, unit: productUnit }));
-            //   .then(() => history.push("/success"))
+            dispatch(
+              createProduct({ name: productName, unit: productUnit })
+            ).then(() => history.push("/success"));
             //   .catch((error) => {
             //     console.log(error);
             //     toast.error(error.message);

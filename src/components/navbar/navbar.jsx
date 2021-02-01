@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import logo from "../../logo.svg";
 import { useDispatch } from "react-redux";
-import { logoutAsync } from "../../pages/auth/auth";
+import { logoutAsync } from "../../store/auth";
 import "./navbar.scss";
 import avatarIcon from "./avatar.svg";
 // import { LinkContainer } from "react-router-bootstrap";

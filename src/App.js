@@ -5,8 +5,10 @@ import Home from "./components/home";
 import Profile from "./components/profile";
 import Create from "./components/create";
 import CreateProuct from "./components/createProduct";
+import CreateVendor from "./components/createVendor";
+import CreatePurchaseOrder from "./components/createPurchaseOrder";
 import Login from "./pages/auth/login";
-import { selectIsLogin, selectUsername } from "./pages/auth/auth";
+import { selectIsLogin, selectUsername } from "./store/auth";
 import { useSelector } from "react-redux";
 import React from "react";
 import { ToastContainer } from "react-toastify";
@@ -51,6 +53,12 @@ function App() {
                 </Route>
                 <Route path="/product/new">
                   <CreateProuct />
+                </Route>
+                <Route path="/vendor/new">
+                  <CreateVendor />
+                </Route>
+                <Route path="/purchaseOrder/new">
+                  <CreatePurchaseOrder />
                 </Route>
                 <Route path="/success" exact>
                   <Sucess />

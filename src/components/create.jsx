@@ -26,7 +26,7 @@ export default function Create() {
             custom
           >
             <option value="product">product</option>
-            <option value="customer">customer</option>
+            <option value="vendor">vendor</option>
             <option value="purchaseOrder">purchase order</option>
           </Form.Control>
         </Form.Group>

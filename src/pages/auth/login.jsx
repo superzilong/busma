@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { loginAsync } from "./auth";
+import { loginAsync } from "../../store/auth";
 import "./login.css";
 import { toast } from "react-toastify";
 import bg from "./bg.png";

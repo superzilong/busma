@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginSvc } from "../../service/authSvc";
+import { loginSvc } from "../service/authSvc";
 import jwt_decode from "jwt-decode";
-import * as actions from "../../store/api";
+import * as actions from "./api";
 
 function initialize() {
   try {

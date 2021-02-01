@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "../../config.json";
 import * as actions from "../api";
-import { logoutAsync } from "../../pages/auth/auth";
+import { logoutAsync } from "../auth";
 import { toast } from "react-toastify";
 
 const api = ({ dispatch }) => (next) => async (action) => {
@@ -26,6 +26,7 @@ const api = ({ dispatch }) => (next) => async (action) => {
       dispatch(actions.apiCallSuccess(response.data));
       // Specific
       if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
+      return response.data;
     } catch (error) {
       // General
       dispatch(actions.apiCallFailed(error));

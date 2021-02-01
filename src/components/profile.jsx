@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUserInfo, getUserInfo } from "../pages/auth/auth";
+import { loadUserInfo, getUserInfo } from "../store/auth";
 
 const Profile = () => {
   var userInfo = useSelector(getUserInfo);
